@@ -7,7 +7,7 @@
             Console.WriteLine("######################################################################################");
             Console.WriteLine("'END': Calculates all number entrys (Requires atleast 2 entrys)");
             Console.WriteLine("'ENDr': Same as 'END' but allows you to calculate another set of numbers");
-            Console.WriteLine("'repeat:x:y;' Repeats one number for X entrys (ex. repeat:1.5:5; Repeats the number 1.5");
+            Console.WriteLine("'repeat:x:y;' Repeats one number for Y entrys (ex. repeat:1.5:5; Repeats the number 1.5");
             Console.WriteLine("For 5 Entrys (You can also use (ex. repeat:12.42;) to repeat 12.42, 12 times)");
             Console.WriteLine(" ");
             Console.WriteLine("If you see a bunch of zeros followed by a small number, ignore it, thats an error that I cant fix");
@@ -20,11 +20,16 @@
             string tester;
             int inputCount = 0;
             double[] numbers = new double[65535];
-            for (int i = 0; i < 65535; i++) { numbers[i] = 0; }
             while (allInputsComplete == false || inputCount < 2)
             {
-                Console.Write(inputCount + " Enter Number: ");
-
+                if (inputCount == 65534)
+                {
+                    Console.Write(inputCount + "/Final Entry, Enter Number: ");
+                }
+                else
+                {
+                    Console.Write(inputCount + " Enter Number: ");
+                }
 #pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
                 tester = Convert.ToString(Console.ReadLine()); // Convert user input to either: number array or to end
@@ -45,7 +50,7 @@
                     {
                         double[] splitRepeatD = new double[splitRepeat.Length];
                         splitRepeatD[0] = Convert.ToDouble(splitRepeat[0]);
-                        splitRepeatD[1] = Convert.ToInt32(splitRepeat[1]);
+                        splitRepeatD[1] = Convert.ToInt64(splitRepeat[1]);
 
                         for (int i = 0; i < splitRepeatD[1]; i++)
                         {
@@ -55,7 +60,8 @@
                         }
                     } else if (splitRepeat.Length == 1) {
                         string[] temp = splitRepeat[0].Split('.', 2);
-                        int splitRepeatD = Convert.ToInt32(temp[0]);
+                        double tempDouble = Convert.ToDouble(temp[0]);
+                        int splitRepeatD = (int)Math.Floor(tempDouble);
 
                         for (int i = 1; i <= splitRepeatD; i++)
                         {
